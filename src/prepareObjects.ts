@@ -14,10 +14,7 @@ export function createBall() {
         size: 15,
         image: new Image(),
     }
-
-    ball.image.onload = () => {
-        ball.image.src = imgSources.ballImgSrc;
-    }
+    ball.image.src = imgSources.ballImgSrc;
 
     return ball;
 }
@@ -28,12 +25,10 @@ export function createPaddle() {
         y: 550,
         w: 100,
         h: 15,
+        speedX: 6,
         image: new Image(),
     }
     paddle.image.src = imgSources.paddleImgSrc;
-    paddle.image.onload = () => {
-        console.log(paddle.image.src)
-    }
 
     return paddle;
 }

@@ -20,7 +20,6 @@ function resumeGame() {
 
 function gameStart() {
     if (gameOn) {
-
         gameRunning()
     } else {
         //call menu
@@ -31,7 +30,7 @@ function gameRunning() {
     // checkInput()
     collisionCheck();
     render();
-    // requestAnimationFrame(gameRunning);
+    requestAnimationFrame(gameRunning);
 }
 
 gameStart();
