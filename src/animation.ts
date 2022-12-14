@@ -3,6 +3,7 @@ import { ballState, paddleState } from "./gameState";
 
 export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
+const selectedOption = document.querySelectorAll('input');
 
 canvas.addEventListener('mousemove', (event) => {
     mousePos = event.clientX;
@@ -50,21 +51,16 @@ export function render(update) {
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
     if (update) {
         updateBall()
-        updatePaddle();
+        // if (selectedOption[0].checked === true) {
+        // } else if (selectedOption[1].checked === true){
+        //     //updatePaddle();
+        // }
+        
     }
     drawBall();
     drawPaddle();
     // updateBall and updatePaddle on a given timeframe
 }
-
-
-// export function checkInput() {
-//     document.addEventListener('keydown', evt => {
-//         if (evt.key === 'Escape') {
-//             alert('Escape button pressed')
-//         }
-//     });
-// }
 
 function drawPaddle() {
     ctx.drawImage(paddle.image, paddle.x, paddle.y, paddle.w, paddle.h);
@@ -74,9 +70,18 @@ function updatePaddle() {
     if (paddle.x + paddle.w / 2 > mousePos - 10) {
         paddle.x -= paddle.speedX;
     } else if (paddle.x + paddle.w / 2 < mousePos - 10) {
-        paddle.x += paddle.speedX;
+        paddle.x += paddle.speedX; 
     }
 }
+
+window.addEventListener('keydown', event => {
+    if (event.code === 'ArrowLeft') {
+        paddle.x -= paddle.speedX + 10
+    } else if (event.code === 'ArrowRight') {
+        paddle.x += paddle.speedX + 10
+    }
+})
+
 
 function updateBall() {
     ball.x += ball.speedX * ball.directionX;

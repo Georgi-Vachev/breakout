@@ -4,6 +4,7 @@ import { createNewObjects } from "./gameState";
 const startButton = document.getElementById('startButton') as HTMLButtonElement;
 const resumeButton = document.getElementById('resumeButton') as HTMLButtonElement;
 
+
 startButton.addEventListener('click', () => {
     gameOn = true;
     startButton.style.display = 'none';
