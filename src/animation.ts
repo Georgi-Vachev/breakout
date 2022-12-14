@@ -3,6 +3,7 @@ import { ballState, gameOn, paddleState } from "./gameState";
 
 export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
+const selectedOption = document.querySelectorAll('input');
 
 canvas.addEventListener('mousemove', (event) => {
     mousePos = Math.floor(event.clientX);
@@ -13,7 +14,8 @@ export const WIDTH: number = canvas.width;
 
 let ball = ballState;
 let paddle = paddleState;
-let mousePos = 0
+let mousePos = 0;
+let keydown = "";
 
 export function getNewObejcts() {
     ball = ballState;
@@ -29,9 +31,6 @@ export function collisionCheck() {
     }
     if (ball.y > HEIGHT - ball.size) {
         ball.lives--;
-        if (ball.lives <= 0) {
-
-        }
         ball.x = 390;
         ball.y = 500;
         ball.directionY = -1;
@@ -65,15 +64,30 @@ function drawBall() {
 }
 
 function updatePaddle() {
-    if (mousePos != paddle.x) {
-        console.log(mousePos)
+    if (mousePos != 0) {
         if ((paddle.x + paddle.w / 2 > mousePos - 10) && paddle.x > 5 && Math.abs(paddle.x + paddle.w / 2 - mousePos) > 10) {
             paddle.x -= paddle.speedX;
         } else if ((paddle.x + paddle.w / 2 < mousePos - 10) && paddle.x + paddle.w < WIDTH - 5 && Math.abs(paddle.x + paddle.w / 2 - mousePos) > 10) {
             paddle.x += paddle.speedX;
         }
     }
+    if (keydown === 'ArrowLeft') {
+        paddle.x -= paddle.speedX + 10
+    } else if (keydown === 'ArrowRight') {
+        paddle.x += paddle.speedX + 10
+    }
 }
+
+window.addEventListener('keydown', event => {
+    if (keydown == "") {
+        keydown = event.code;
+    }
+    mousePos = 0;
+})
+window.addEventListener('keyup', () => {
+    keydown = "";
+    mousePos = 0;
+})
 
 function updateBall() {
     ball.x += ball.speedX * ball.directionX;

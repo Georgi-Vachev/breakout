@@ -79,3 +79,9 @@ canvas {
   }
 
 }
+
+#resumeButton {
+  position: absolute;
+  left: 25%;
+  9 top: 40%
+}
