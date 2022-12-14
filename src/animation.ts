@@ -4,7 +4,7 @@ import { ballState, paddleState } from "./gameState";
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
 canvas.addEventListener('mousemove', (event) => {
-    updatePaddle(event);
+    updateMousePosition(event);
 })
 
 const HEIGHT: number = canvas.height;
@@ -12,6 +12,14 @@ const WIDTH: number = canvas.width;
 
 const ball = ballState;
 const paddle = paddleState;
+const mousePos = {
+    x: 0,
+    y: 0
+}
+
+function updateMousePosition(event) {
+    mousePos.x = event.clientX;
+}
 
 export function collisionCheck() {
     if (ball.x > WIDTH - ball.size) {
@@ -37,10 +45,18 @@ export function collisionCheck() {
     }
 }
 
-export function render() {
+export function render(now) {
     clear();
     ctx.fillStyle = "gold";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    if (!lastTime) { lastTime = now; }
+    let elapsed = now - lastTime;
+    if (elapsed > 1000 / 30) {
+        updateBall();
+        updatePaddle();
+    }
+
     drawBall();
     drawPaddle();
     // updateBall and updatePaddle on a given timeframe
@@ -63,12 +79,13 @@ function updatePaddle(event) {
     }
 }
 
-
-function drawBall() {
-    console.log(ball.image.src)
+function updateBall() {
     ball.x += ball.speedX * ball.directionX;
     ball.y += ball.speedY * ball.directionY;
+}
 
+
+function drawBall() {
     ctx.drawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
 }
 
