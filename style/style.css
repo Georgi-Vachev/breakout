@@ -1,17 +1,11 @@
 canvas {
-    border: 2px solid orange;
+  border: 2px solid orange;
 }
 
 #startButton {
-    position:absolute;
-    left:25%;
-    top:30%
-  }
-
-#options {
-    position:absolute;
-    left:24%;
-    top:40%
+  position: absolute;
+  left: 25%;
+  top: 30%
 }
 
 /* CSS */
@@ -21,11 +15,11 @@ canvas {
   background-image: linear-gradient(rgba(179, 132, 201, .84), rgba(232, 191, 30, 0.84) 50%);
   border-radius: 42px;
   border-width: 0;
-  box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px,rgba(179, 132, 201, 0.4) 0 8px 12px;
+  box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px, rgba(179, 132, 201, 0.4) 0 8px 12px;
   color: #FFFFFF;
   cursor: pointer;
   display: flex;
-  font-family: Quicksand,sans-serif;
+  font-family: Quicksand, sans-serif;
   font-size: 18px;
   font-weight: 700;
   justify-content: center;
@@ -35,7 +29,34 @@ canvas {
   padding: 18px 18px;
   text-align: center;
   text-decoration: none;
-  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px,rgba(255, 255, 255, 0.2) 0 0 12px,rgba(57, 31, 91, 0.6) 1px 1px 4px,rgba(57, 31, 91, 0.32) 4px 4px 16px;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px, rgba(255, 255, 255, 0.2) 0 0 12px, rgba(57, 31, 91, 0.6) 1px 1px 4px, rgba(57, 31, 91, 0.32) 4px 4px 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+#resumeButton {
+  align-items: center;
+  background-color: initial;
+  background-image: linear-gradient(rgba(179, 132, 201, .84), rgba(232, 191, 30, 0.84) 50%);
+  border-radius: 42px;
+  border-width: 0;
+  box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px, rgba(179, 132, 201, 0.4) 0 8px 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  font-family: Quicksand, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: .04em;
+  line-height: 16px;
+  margin: 0;
+  padding: 18px 18px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px, rgba(255, 255, 255, 0.2) 0 0 12px, rgba(57, 31, 91, 0.6) 1px 1px 4px, rgba(57, 31, 91, 0.32) 4px 4px 16px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -51,42 +72,10 @@ canvas {
     font-size: 21px;
     padding: 18px 34px;
   }
-}
 
-#options {
-    align-items: center;
-    background-color: initial;
-    background-image: linear-gradient(rgba(201, 169, 132, 0.84), rgba(255, 193, 68, 0.84) 50%);
-    border-radius: 42px;
-    border-width: 0;
-    box-shadow: rgba(227, 152, 13, 0.24) 0 2px 2px,rgba(179, 132, 201, 0.4) 0 8px 12px;
-    color: #FFFFFF;
-    cursor: pointer;
-    display: flex;
-    font-family: Quicksand,sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    justify-content: center;
-    letter-spacing: .04em;
-    line-height: 16px;
-    margin: 0;
-    padding: 18px 18px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px,rgba(255, 255, 255, 0.2) 0 0 12px,rgba(57, 31, 91, 0.6) 1px 1px 4px,rgba(57, 31, 91, 0.32) 4px 4px 16px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    vertical-align: baseline;
+  #resumeButton {
+    font-size: 21px;
+    padding: 18px 34px;
   }
-  
-  #options:hover {
-    background-image: linear-gradient(#B384C9, #1f25d3 50%);
-  }
-  
-  @media (min-width: 768px) {
-    #options {
-      font-size: 21px;
-      padding: 18px 34px;
-    }
-  }
+
+}

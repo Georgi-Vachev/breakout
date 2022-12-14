@@ -1,7 +1,25 @@
-import { render, checkInput, collisionCheck, canvas, ctx, clear, WIDTH, HEIGHT } from "./animation";
+import { render, collisionCheck, canvas, ctx, clear, WIDTH, HEIGHT, getNewObejcts } from "./animation";
+import { createNewObjects } from "./gameState";
 
 const startButton = document.getElementById('startButton') as HTMLButtonElement;
-const optionsButton = document.getElementById('options') as HTMLButtonElement;
+const resumeButton = document.getElementById('resumeButton') as HTMLButtonElement;
+
+startButton.addEventListener('click', () => {
+    gameOn = true;
+    startButton.style.display = 'none';
+    resumeButton.style.display = 'none';
+    createNewObjects();
+    getNewObejcts();
+    initState();
+})
+
+resumeButton.addEventListener('click', () => {
+    gameOn = true;
+    startButton.style.display = 'none';
+    resumeButton.style.display = 'none';
+    initState();
+})
+
 let gameOn: boolean = false;
 let id = null;
 
@@ -9,61 +27,41 @@ document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
         gameOn = false;
         alert('Escape button pressed')
-        gameStart()
+        initState()
     }
 });
 
+function showMenu() {
+    clear();
+    ctx.fillStyle = "blue";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-function newGame() {
-        clear();
-        ctx.fillStyle = "blue";
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
-        
+    if (startButton.style.display = 'none') {
+        startButton.style.display = 'block';
 
-        if (startButton.style.display = 'none') {
-            startButton.style.display = 'block';
-            optionsButton.style.display = 'block';
-        }
-        
-        
-        startButton.addEventListener('click', () => {
-            gameOn = true;
-            startButton.style.display = 'none';
-            optionsButton.style.display = 'none';
-            gameStart();
-        })
+        resumeButton.style.display = 'block';
+    }
 }
 
+showMenu()
 
-newGame()
-
-function saveGame() {
-    //stop animationLoop and save objects
-}
-
-function resumeGame() {
-    //call animationLoop with saved objects
-}
-
-
-// checkInput > collisionCheck > render
-
-
-function gameStart() {
+function initState() {
     if (gameOn) {
         gameRunning()
-    } else {
-        console.log('asd')
-        cancelAnimationFrame(id)
-        newGame()
+    } else if (!gameOn) {
+        showMenu();
     }
 }
 
 function gameRunning() {
     // checkInput()
-    collisionCheck();
-    render();
-    id = requestAnimationFrame(gameRunning);
+    if (gameOn) {
+        let lastTime;
+
+        collisionCheck();
+        render(true);
+        requestAnimationFrame(gameRunning);
+    }
 }
 
 

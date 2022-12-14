@@ -3,22 +3,21 @@ import { ballState, paddleState } from "./gameState";
 
 export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
+
 canvas.addEventListener('mousemove', (event) => {
-    updateMousePosition(event);
+    mousePos = event.clientX;
 })
 
 export const HEIGHT: number = canvas.height;
 export const WIDTH: number = canvas.width;
 
-const ball = ballState;
-const paddle = paddleState;
-const mousePos = {
-    x: 0,
-    y: 0
-}
+let ball = ballState;
+let paddle = paddleState;
+let mousePos = 0
 
-function updateMousePosition(event) {
-    mousePos.x = event.clientX;
+export function getNewObejcts() {
+    ball = ballState;
+    paddle = paddleState;
 }
 
 export function collisionCheck() {
@@ -45,40 +44,36 @@ export function collisionCheck() {
     }
 }
 
-export function render(now) {
+export function render(update) {
     clear();
     ctx.fillStyle = "gold";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-    if (!lastTime) { lastTime = now; }
-    let elapsed = now - lastTime;
-    if (elapsed > 1000 / 30) {
-        updateBall();
+    if (update) {
+        updateBall()
         updatePaddle();
     }
-
     drawBall();
     drawPaddle();
     // updateBall and updatePaddle on a given timeframe
 }
 
 
-export function checkInput() {
-    document.addEventListener('keydown', evt => {
-        if (evt.key === 'Escape') {
-            alert('Escape button pressed')
-        }
-    });
-}
+// export function checkInput() {
+//     document.addEventListener('keydown', evt => {
+//         if (evt.key === 'Escape') {
+//             alert('Escape button pressed')
+//         }
+//     });
+// }
 
 function drawPaddle() {
     ctx.drawImage(paddle.image, paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
-function updatePaddle(event) {
-    if (paddle.x + paddle.w / 2 > event.clientX - 10) {
+function updatePaddle() {
+    if (paddle.x + paddle.w / 2 > mousePos - 10) {
         paddle.x -= paddle.speedX;
-    } else if (paddle.x + paddle.w / 2 < event.clientX - 10) {
+    } else if (paddle.x + paddle.w / 2 < mousePos - 10) {
         paddle.x += paddle.speedX;
     }
 }
@@ -87,7 +82,6 @@ function updateBall() {
     ball.x += ball.speedX * ball.directionX;
     ball.y += ball.speedY * ball.directionY;
 }
-
 
 function drawBall() {
     ctx.drawImage(ball.image, ball.x, ball.y, ball.size, ball.size);

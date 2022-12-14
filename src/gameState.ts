@@ -5,11 +5,14 @@ export let gameOn: boolean = false;
 export let ballState = createBall();
 export let paddleState = createPaddle();
 
-export function saveBall(pausedBall) {
-    ballState = pausedBall;
+
+
+export function saveObjects(currentBall, currentPaddle) {
+    ballState = currentBall;
+    paddleState = currentPaddle;
 }
 
-export function savePaddle(pausedPaddle) {
-    paddleState = pausedPaddle;
+export function createNewObjects() {
+    ballState = createBall();
+    paddleState = createPaddle();
 }
-
