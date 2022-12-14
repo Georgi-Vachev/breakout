@@ -1,10 +1,41 @@
-import { render, checkInput, collisionCheck } from "./animation";
-import { gameOn } from "./gameState";
+import { render, checkInput, collisionCheck, canvas, ctx, clear, WIDTH, HEIGHT } from "./animation";
+
+const startButton = document.getElementById('startButton') as HTMLButtonElement;
+const optionsButton = document.getElementById('options') as HTMLButtonElement;
+let gameOn: boolean = false;
+let id = null;
+
+document.addEventListener('keydown', evt => {
+    if (evt.key === 'Escape') {
+        gameOn = false;
+        alert('Escape button pressed')
+        gameStart()
+    }
+});
 
 
 function newGame() {
+        clear();
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        
 
+        if (startButton.style.display = 'none') {
+            startButton.style.display = 'block';
+            optionsButton.style.display = 'block';
+        }
+        
+        
+        startButton.addEventListener('click', () => {
+            gameOn = true;
+            startButton.style.display = 'none';
+            optionsButton.style.display = 'none';
+            gameStart();
+        })
 }
+
+
+newGame()
 
 function saveGame() {
     //stop animationLoop and save objects
@@ -22,7 +53,9 @@ function gameStart() {
     if (gameOn) {
         gameRunning()
     } else {
-        //call menu
+        console.log('asd')
+        cancelAnimationFrame(id)
+        newGame()
     }
 }
 
@@ -30,10 +63,8 @@ function gameRunning() {
     // checkInput()
     collisionCheck();
     render();
-    requestAnimationFrame(gameRunning);
+    id = requestAnimationFrame(gameRunning);
 }
-
-gameStart();
 
 
 // define objects

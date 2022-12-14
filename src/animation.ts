@@ -1,14 +1,14 @@
 import { ballState, paddleState } from "./gameState";
 
 
-const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d');
+export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+export const ctx = canvas.getContext('2d');
 canvas.addEventListener('mousemove', (event) => {
     updateMousePosition(event);
 })
 
-const HEIGHT: number = canvas.height;
-const WIDTH: number = canvas.width;
+export const HEIGHT: number = canvas.height;
+export const WIDTH: number = canvas.width;
 
 const ball = ballState;
 const paddle = paddleState;
@@ -64,7 +64,11 @@ export function render(now) {
 
 
 export function checkInput() {
-    //if escape is pressed set gameOn to false and call saveGame
+    document.addEventListener('keydown', evt => {
+        if (evt.key === 'Escape') {
+            alert('Escape button pressed')
+        }
+    });
 }
 
 function drawPaddle() {
@@ -89,6 +93,6 @@ function drawBall() {
     ctx.drawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
 }
 
-function clear() {
+export function clear() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 }
