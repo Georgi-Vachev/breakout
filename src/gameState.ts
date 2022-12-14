@@ -1,6 +1,6 @@
 import { createBall, createPaddle } from "./prepareObjects";
 
-export let gameOn: boolean = true;
+export let gameOn: boolean = false;
 
 export let ballState = createBall();
 export let paddleState = createPaddle();
