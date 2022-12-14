@@ -1,4 +1,4 @@
-import { render, collisionCheck, canvas, ctx, clear, WIDTH, HEIGHT, getNewObejcts } from "./animation";
+import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics } from "./animation";
 import { createNewObjects } from "./gameState";
 
 const startButton = document.getElementById('startButton') as HTMLButtonElement;
@@ -21,24 +21,23 @@ resumeButton.addEventListener('click', () => {
 })
 
 let gameOn: boolean = false;
-let id = null;
 
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
         gameOn = false;
-        alert('Escape button pressed')
         initState()
     }
 });
 
-function showMenu() {
+export function showMenu() {
+    gameOn = false;
     clear();
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
+
     if (startButton.style.display = 'none') {
         startButton.style.display = 'block';
-
         resumeButton.style.display = 'block';
     }
 }
@@ -47,41 +46,28 @@ showMenu()
 
 function initState() {
     if (gameOn) {
-        gameRunning()
+        requestAnimationFrame(gameRunning);
     } else if (!gameOn) {
         showMenu();
     }
 }
 
-function gameRunning() {
-    // checkInput()
-    if (gameOn) {
-        let lastTime;
+let lastTime;
+let requiredElapsed = 1000 / 120;
 
+function gameRunning() {
+    if (gameOn) {
         collisionCheck();
-        render(true);
+        let now = Date.now()
+        if (!lastTime) { lastTime = now; }
+        let elapsed = now - lastTime;
+        if (elapsed > requiredElapsed) {
+            updatePhysics();
+            lastTime = now;
+        }
+        render();
         requestAnimationFrame(gameRunning);
+    } else {
+        initState();
     }
 }
-
-
-// define objects
-    // ball = { x, y, size, image, onCollision(), }
-    // paddle = { x, y, size, image, onCollision(), slide() }
-    // brick = { index, x, y, size, image, onCollision() }
-
-// create animation loop with render() function using requestAnimationFrame
-
-// render bricks, ball, and paddle
-
-// implement ball / paddle physics
-
-// implement ball / bricks physics
-
-// implement mouse tracking and paddle movement
-
-// level tracking and progression
-
-// bonus drops
-
-// create menu with 'settings' and 'start game' options

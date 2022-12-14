@@ -12,6 +12,7 @@ export function createBall() {
         speedX: 3,
         speedY: 3,
         size: 15,
+        lives: 3,
         image: new Image(),
     }
     ball.image.src = imgSources.ballImgSrc;
