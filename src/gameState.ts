@@ -1,11 +1,13 @@
-import { createBall, createPaddle } from "./prepareObjects";
+import { createBall, createBricks, createPaddle } from "./prepareObjects";
 
 export let gameOn: boolean = false;
 
-export let ballState = createBall();
-export let paddleState = createPaddle();
+export let ballState;
+export let paddleState;
+export let brickState;
 
 export function createNewObjects() {
     ballState = createBall();
     paddleState = createPaddle();
+    brickState = createBricks();
 }

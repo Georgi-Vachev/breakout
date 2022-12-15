@@ -1,13 +1,17 @@
-import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics, canvas } from "./animation";
+import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics, canvas, ball } from "./animation";
 import { ballState, createNewObjects } from "./gameState";
 
 export let inputSelected = 'Mouse';
+ctx.font = `24px Arial`;
+ctx.textAlign = `center`;
+ctx.textBaseline = `middle`;
+let escapePressed = false;
 
 canvas.addEventListener('click', (event) => {
     const userX = event.x;
     const userY = event.y;
     if (!gameOn) {
-        if (userX >= 320 && userX <= 480 && userY >= 250 && userY <= 290) {
+        if (userX >= 320 && userX <= 480 && userY >= 300 && userY <= 340) {
             gameOn = true;
             createNewObjects();
             getNewObejcts();
@@ -20,7 +24,7 @@ canvas.addEventListener('click', (event) => {
     const userX = event.x;
     const userY = event.y;
     if (!gameOn) {
-        if (userX >= 320 && userX <= 480 && userY >= 300 && userY <= 340) {
+        if (userX >= 320 && userX <= 480 && userY >= 250 && userY <= 290) {
             gameOn = true;
             initState();
         }
@@ -32,6 +36,8 @@ canvas.addEventListener('click', (event) => {
     const userY = event.y;
     if (!gameOn) {
         if (userX >= 230 && userX <= 390 && userY >= 350 && userY <= 390) {
+            button(405, 350, "Keyboard", 'gold', 'black');
+            button(235, 350, "Mouse", 'black', 'gold');
             inputSelected = 'Mouse';
         }
     }
@@ -42,6 +48,8 @@ canvas.addEventListener('click', (event) => {
     const userY = event.y;
     if (!gameOn) {
         if (userX >= 400 && userX <= 560 && userY >= 350 && userY <= 390) {
+            button(405, 350, "Keyboard", 'black', 'gold');
+            button(235, 350, "Mouse", 'gold', 'black');
             inputSelected = 'Keyboard';
         }
     }
@@ -53,6 +61,8 @@ let gameOn: boolean = false;
 
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
+
+        escapePressed = true;
         gameOn = false;
         initState()
     }
@@ -64,11 +74,12 @@ export function showMenu() {
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    button(320, 250, "Start");
-    button(320, 300, "Resume");
-    button(230, 350, "Mouse");
-    button(400, 350, "Keyboard");
-
+    if (escapePressed) {
+        button(320, 250, "Resume", 'gold', 'black');
+    }
+    button(320, 300, "Start", 'gold', 'black');
+    button(235, 350, "Mouse", 'gold', 'black');
+    button(405, 350, "Keyboard", 'gold', 'black');
 }
 
 showMenu()
@@ -84,7 +95,7 @@ function initState() {
 let lastTime;
 
 function gameRunning(now) {
-    if (gameOn) {
+    if (gameOn && ball.lives > 0) {
         updatePhysics();
         collisionCheck();
         if (!lastTime) { lastTime = now; }
@@ -95,19 +106,17 @@ function gameRunning(now) {
         }
         requestAnimationFrame(gameRunning);
     } else {
+        gameOn = false;
         initState();
     }
 }
 
-function button(x, y, label) {
+function button(x, y, label, fillBackground, fillText) {
     ctx.beginPath();
-    ctx.font = `24px Arial`;
-    ctx.textAlign = `center`;
-    ctx.textBaseline = `middle`;
-    ctx.fillStyle = "gold";
+    ctx.fillStyle = fillBackground;
     ctx.roundRect(x, y, 160, 40, 50);
     ctx.fill();
     ctx.stroke();
-    ctx.fillStyle = "black";
+    ctx.fillStyle = fillText;
     ctx.fillText(label, x + 75, y + 20)
 }
