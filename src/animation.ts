@@ -26,27 +26,31 @@ export function collisionCheck() {
     if (ball.x > WIDTH - ball.size) {
         ball.directionX *= -1;
     }
-    if (ball.x < 0) {
+    else if (ball.x < 0) {
         ball.directionX *= -1;
     }
-    if (ball.y > HEIGHT - ball.size) {
+    else if (ball.y > HEIGHT - ball.size) {
         ball.lives--;
         ball.x = 390;
         ball.y = 500;
         ball.directionY = -1;
     }
-    if (ball.y < 0) {
+    else if (ball.y < 0) {
         ball.directionY *= -1;
+    }
+    else if (ball.speedY * ball.directionY > 0) {
+        console.log(ball.speedY);
+        if (ball.y + ball.size >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.w) {
+            ball.directionY *= -1;
+        }
     }
 
-    if (ball.y + ball.size >= paddle.y && ball.x + ball.size >= paddle.x && ball.x + ball.size <= paddle.x + paddle.w && ball.y <= HEIGHT - ball.size) {
-        ball.directionY *= -1;
-    }
 }
 export function updatePhysics() {
     updateBall();
     updatePaddle();
 }
+
 export function render() {
     clear();
     ctx.fillStyle = "gold";
@@ -78,6 +82,11 @@ function updatePaddle() {
     }
 }
 
+function updateBall() {
+    ball.x += ball.speedX * ball.directionX;
+    ball.y += ball.speedY * ball.directionY;
+}
+
 window.addEventListener('keydown', event => {
     if (keydown == "") {
         keydown = event.code;
@@ -89,10 +98,7 @@ window.addEventListener('keyup', () => {
     mousePos = 0;
 })
 
-function updateBall() {
-    ball.x += ball.speedX * ball.directionX;
-    ball.y += ball.speedY * ball.directionY;
-}
+
 
 export function clear() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
