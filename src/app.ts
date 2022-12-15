@@ -1,6 +1,8 @@
 import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics, canvas } from "./animation";
 import { createNewObjects } from "./gameState";
 
+export let inputSelected = '';
+
 
 canvas.addEventListener('click', (event) => {
     const userX = event.x;
@@ -14,14 +16,6 @@ canvas.addEventListener('click', (event) => {
         initState();
     }
 })
-// })
-
-// resumeButton.addEventListener('click', () => {
-//     gameOn = true;
-//     startButton.style.display = 'none';
-//     resumeButton.style.display = 'none';
-//     initState();
-// })
 
 canvas.addEventListener('click', (event) => {
     const userX = event.x;
@@ -30,6 +24,22 @@ canvas.addEventListener('click', (event) => {
     if (userX >= 320 && userX <= 480 && userY >= 300 && userY <= 340) {
         gameOn = true;
         initState();
+    }
+})
+
+canvas.addEventListener('click', (event) => {
+    const userX = event.x;
+    const userY = event.y;
+    if (userX >= 230 && userX <= 390 && userY >= 350 && userY <= 390) {
+        inputSelected = 'Mouse';
+    }
+})
+
+canvas.addEventListener('click', (event) => {
+    const userX = event.x;
+    const userY = event.y;
+    if (userX >= 400 && userX <= 560 && userY >= 350 && userY <= 390) {
+        inputSelected = 'Keyboard';
     }
 })
 
@@ -52,11 +62,9 @@ export function showMenu() {
 
     button(320, 250, "Start");
     button(320, 300, "Resume");
+    button(230, 350, "Mouse");
+    button(400, 350, "Keyboard");
 
-    // if (startButton.style.display = 'none') {
-    //     startButton.style.display = 'block';
-    //     resumeButton.style.display = 'block';
-    // }
 }
 
 showMenu()
@@ -95,7 +103,7 @@ function button(x, y, label) {
     ctx.textAlign = `center`;
     ctx.textBaseline = `middle`;
     ctx.fillStyle = "gold";
-    ctx.roundRect(x, y, 160, 40, 50)
+    ctx.roundRect(x, y, 160, 40, 50);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "black";

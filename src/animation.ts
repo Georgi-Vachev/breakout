@@ -1,13 +1,9 @@
-import { showMenu } from "./app";
+import { inputSelected, showMenu } from "./app";
 import { ballState, gameOn, paddleState } from "./gameState";
 
 export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
 const selectedOption = document.querySelectorAll('input');
-
-canvas.addEventListener('mousemove', (event) => {
-    mousePos = Math.floor(event.clientX);
-})
 
 export const HEIGHT: number = canvas.height;
 export const WIDTH: number = canvas.width;
@@ -64,30 +60,22 @@ function drawBall() {
 }
 
 function updatePaddle() {
-    if (mousePos != 0) {
+    if (inputSelected === 'Mouse') {
+        console.log(inputSelected)
         if ((paddle.x + paddle.w / 2 > mousePos - 10) && paddle.x > 5 && Math.abs(paddle.x + paddle.w / 2 - mousePos) > 10) {
             paddle.x -= paddle.speedX;
         } else if ((paddle.x + paddle.w / 2 < mousePos - 10) && paddle.x + paddle.w < WIDTH - 5 && Math.abs(paddle.x + paddle.w / 2 - mousePos) > 10) {
             paddle.x += paddle.speedX;
         }
-    }
-    if (keydown === 'ArrowLeft') {
-        paddle.x -= paddle.speedX + 10
-    } else if (keydown === 'ArrowRight') {
-        paddle.x += paddle.speedX + 10
+
+    } else if (inputSelected === 'Keyboard') {
+        if (keydown === 'ArrowLeft') {
+            paddle.x -= paddle.speedX + 10
+        } else if (keydown === 'ArrowRight') {
+            paddle.x += paddle.speedX + 10
+        }
     }
 }
-
-window.addEventListener('keydown', event => {
-    if (keydown == "") {
-        keydown = event.code;
-    }
-    mousePos = 0;
-})
-window.addEventListener('keyup', () => {
-    keydown = "";
-    mousePos = 0;
-})
 
 function updateBall() {
     ball.x += ball.speedX * ball.directionX;
@@ -97,4 +85,19 @@ function updateBall() {
 export function clear() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
 }
+
+canvas.addEventListener('mousemove', (event) => {
+    mousePos = Math.floor(event.clientX);
+})
+
+window.addEventListener('keydown', event => {
+    if (keydown == "") {
+        keydown = event.code;
+    }
+})
+
+window.addEventListener('keyup', () => {
+    keydown = "";
+})
+
 
