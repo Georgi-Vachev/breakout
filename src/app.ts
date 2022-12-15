@@ -1,6 +1,8 @@
 import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics, canvas } from "./animation";
 import { ballState, createNewObjects } from "./gameState";
 
+export let inputSelected = 'Mouse';
+
 canvas.addEventListener('click', (event) => {
     const userX = event.x;
     const userY = event.y;
@@ -25,6 +27,28 @@ canvas.addEventListener('click', (event) => {
     }
 })
 
+canvas.addEventListener('click', (event) => {
+    const userX = event.x;
+    const userY = event.y;
+    if (!gameOn) {
+        if (userX >= 230 && userX <= 390 && userY >= 350 && userY <= 390) {
+            inputSelected = 'Mouse';
+        }
+    }
+})
+
+canvas.addEventListener('click', (event) => {
+    const userX = event.x;
+    const userY = event.y;
+    if (!gameOn) {
+        if (userX >= 400 && userX <= 560 && userY >= 350 && userY <= 390) {
+            inputSelected = 'Keyboard';
+        }
+    }
+
+})
+
+
 let gameOn: boolean = false;
 
 document.addEventListener('keydown', evt => {
@@ -42,6 +66,9 @@ export function showMenu() {
 
     button(320, 250, "Start");
     button(320, 300, "Resume");
+    button(230, 350, "Mouse");
+    button(400, 350, "Keyboard");
+
 }
 
 showMenu()
@@ -78,7 +105,7 @@ function button(x, y, label) {
     ctx.textAlign = `center`;
     ctx.textBaseline = `middle`;
     ctx.fillStyle = "gold";
-    ctx.roundRect(x, y, 160, 40, 50)
+    ctx.roundRect(x, y, 160, 40, 50);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "black";
