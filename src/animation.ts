@@ -1,5 +1,5 @@
 import { inputSelected } from "./app";
-import { ballState, brickState, paddleState } from "./gameState";
+import { state } from "./gameState";
 
 export const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
@@ -7,16 +7,16 @@ export const ctx = canvas.getContext('2d');
 export const HEIGHT: number = canvas.height;
 export const WIDTH: number = canvas.width;
 
-export let ball = ballState;
-let paddle = paddleState;
-let bricks = brickState;
+export let ball = state.ballState;
+let paddle = state.paddleState;
+export let bricks = state.brickState;
 let mousePos = 0;
 let keydown = "";
 
 export function getNewObejcts() {
-    ball = ballState;
-    paddle = paddleState;
-    bricks = brickState;
+    ball = state.ballState;
+    paddle = state.paddleState;
+    bricks = state.brickState;
 }
 
 export function collisionCheck() {
@@ -40,36 +40,43 @@ export function collisionCheck() {
         if (ball.y + ball.size >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.w) {
             if (ball.x >= paddle.x - ball.size && ball.x <= paddle.x + paddle.w * (1 / 3) - ball.size) {
                 if (ball.speedX * ball.directionX < 0) {
-                    ball.speedX += 1;
-                    ball.speedY -= 1;
-                } else if (ball.speedX * ball.directionX < 0) {
-                    ball.speedY += 1;
-                    ball.speedX -= 1;
+                    ball.speedX += 0.4;
+                    ball.speedY -= 0.4;
+                } else if (ball.speedX * ball.directionX > 0) {
+                    ball.speedY += 0.4;
+                    ball.speedX -= 0.4;
                 }
             } else if (ball.x >= paddle.x + paddle.w * (1 / 3) - ball.size && ball.x <= paddle.x + paddle.w * (2 / 3) - ball.size) {
-
+                ball.speedY = 2;
+                ball.speedX = 2;
             } else {
                 if (ball.speedX * ball.directionX < 0) {
-                    ball.speedX -= 1;
-                    ball.speedY += 1;
-                } else if (ball.speedX * ball.directionX < 0) {
-                    ball.speedY -= 1;
-                    ball.speedX += 1;
+                    ball.speedX -= 0.4;
+                    ball.speedY += 0.4;
+                } else if (ball.speedX * ball.directionX > 0) {
+                    ball.speedY -= 0.4;
+                    ball.speedX += 0.4;
                 }
             }
-
+            ball.directionY *= -1;
         }
-        ball.directionX *= -1;
+
     }
 
     for (let brick of bricks) {
+        if (!brick[1].alive) {
+            continue
+        }
         if (ball.x >= brick[1].x - ball.size && ball.x <= brick[1].x + brick[1].w - ball.size && ball.y >= brick[1].y - ball.size && ball.y <= brick[1].y + brick[1].h) {
             ball.directionY *= -1;
-            bricks.delete(brick[0]);
-            console.log(brick);
+            brick[1].alive = false;
         }
-
     }
+
+    if (state.brickState.size) {
+        state.gameOn = false;
+    }
+
 }
 
 export function updatePhysics() {
@@ -96,7 +103,7 @@ function drawBall() {
 
 function drawBricks() {
     for (let brick of bricks) {
-        ctx.drawImage(brick[1].image, brick[1].x, brick[1].y, brick[1].w, brick[1].h);
+        if (brick[1].alive) { ctx.drawImage(brick[1].image, brick[1].x, brick[1].y, brick[1].w, brick[1].h); }
     }
 }
 

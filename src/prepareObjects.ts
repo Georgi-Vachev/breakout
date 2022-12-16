@@ -13,8 +13,8 @@ export function createBall() {
         y: 500,
         directionX: -1,
         directionY: -1,
-        speedX: 4,
-        speedY: 4,
+        speedX: 2,
+        speedY: 2,
         size: 15,
         lives: 3,
         image: new Image(),
@@ -44,7 +44,8 @@ function createBrick(x, y, imgType, id) {
         y: y,
         w: 70,
         h: 36,
-        id: IdleDeadline,
+        id: id,
+        alive: true,
         image: new Image(),
     }
 

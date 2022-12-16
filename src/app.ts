@@ -1,5 +1,5 @@
 import { render, collisionCheck, ctx, clear, WIDTH, HEIGHT, getNewObejcts, updatePhysics, canvas, ball } from "./animation";
-import { ballState, createNewObjects } from "./gameState";
+import { state, createNewObjects } from "./gameState";
 
 export let inputSelected = 'Mouse';
 ctx.font = `24px Arial`;
